@@ -1,0 +1,12 @@
+<h5>Buscar:</h5>
+
+<!-- Se utiliza #txtTagInput para crear una variable y utilizarla en "searchTag( txtTagInput.value)" -->
+<!-- Para darle ENTER y guardar la palabra pulsar utilizar :(keyup.enter)  -->
+
+<input type="text"
+class="form-control"
+placeholder="Buscar gifs..."
+#txtTagInput
+(keyup.enter)="searchTag()"
+
+>
