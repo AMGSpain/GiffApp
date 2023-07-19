@@ -13,7 +13,11 @@ export class GifsService {
 
   public gifList: Gif[]=[];
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+    //Cargar el historial:
+    this.loadLocalStorage();
+    console.log('Los Gifs estan preparados')
+  }
 
   get tagsHistory(){
     //Devolver Constructor
@@ -33,6 +37,34 @@ export class GifsService {
 
     //El número no puede ser mayor a 10 búsquedas:
     this._tagsHistory = this._tagsHistory.splice(0,10);
+
+    //Guardar el Historial:
+    this.saveLocalStorage();
+  }
+
+  //Guardar el Historial:
+  private saveLocalStorage():void{
+    localStorage.setItem('history', JSON.stringify(this._tagsHistory));
+  }
+
+  //Leer Historial:
+  private loadLocalStorage():void{
+    if(localStorage.getItem('history')){
+      //Si tiene Historial lo carga:
+      this._tagsHistory = JSON.parse(localStorage.getItem('history')!);
+    }else{
+      //Si no vuelve:
+      return;
+    }
+
+    //Si el TagsHistory esta a 0 no devuelvas nada:
+    if (this._tagsHistory.length === 0) {
+      return;
+
+    }else{
+      //Si en el TagsHistory hay algo devuelvelo:
+      this.searchTag(this._tagsHistory[0]);
+    }
   }
 
   searchTag(tag: string): void{
